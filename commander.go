@@ -1,7 +1,7 @@
 package commander
 
 import (
-	kingpin "github.com/matthewmueller/kingpin"
+	kingpin "github.com/tj/kingpin"
 )
 
 // // Commander of commander
@@ -82,7 +82,7 @@ func (c *Root) Fatal(err error) {
 	c.root.FatalUsage(err.Error())
 }
 
-// Help displays the help
+// Usage displays the help
 func (c *Root) Usage() {
 	c.root.Usage([]string{})
 }
