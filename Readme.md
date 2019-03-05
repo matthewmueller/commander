@@ -17,7 +17,7 @@ Here's a real-world example of using Commander to build a migration tool:
 ```go
 func main() {
   log := log.Log
-  migrate := commander.New("migrate", "Postgres migration CLI")
+  migrate := commander.New("migrate", "Migration CLI")
 
   { // create a new migration
     new := migrate.Command("new", "create a new migration")
