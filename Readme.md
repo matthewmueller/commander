@@ -1,6 +1,6 @@
 # Commander
 
-[![GoDoc](https://godoc.org/matthewmueller/commander?status.svg)](https://godoc.org/matthewmueller/commander)
+[![GoDoc](https://godoc.org/github.com/matthewmueller/commander?status.svg)](https://godoc.org/github.com/matthewmueller/commander)
 
 Commander makes it easier to build command-line tools in Go.
 
