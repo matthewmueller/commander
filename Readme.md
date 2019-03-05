@@ -17,19 +17,19 @@ Here's a real-world example of using Commander to build a migration tool:
 ```go
 func main() {
   log := log.Log
-  migrate := commander.New("migrate", "Migration CLI")
+  cli := commander.New("migrate", "Migration CLI")
 
   { // create a new migration
-    new := migrate.Command("new", "create a new migration")
+    new := cli.Command("new", "create a new migration")
     name := new.Arg("name", "create a new migration by name").Required().String()
     dir := new.Flag("dir", "migrations directory").Default("./migrations").String()
     new.Run(func() error {
-      return migrator.New(*dir, *name)
+      return migrate.New(*dir, *name)
     })
   }
 
   { // migrate up
-    up := migrate.Command("up", "migrate up")
+    up := cli.Command("up", "migrate up")
     db := up.Flag("db", "database url (e.g. postgres://localhost:5432)").Required().String()
     name := up.Arg("name", "name of the migration to migrate up to").String()
     dir := up.Flag("dir", "migrations directory").Default("./migrations").String()
@@ -43,12 +43,12 @@ func main() {
       if name != nil {
         n = *name
       }
-      return migrator.UpTo(conn, *dir, n)
+      return migrate.UpTo(conn, *dir, n)
     })
   }
 
   { // migrate down
-    down := migrate.Command("down", "migrate down")
+    down := cli.Command("down", "migrate down")
     db := down.Flag("db", "database url (e.g. postgres://localhost:5432)").Required().String()
     name := down.Arg("name", "name of the migration to migrate down to").String()
     dir := down.Flag("dir", "migrations directory").Default("./migrations").String()
@@ -62,12 +62,12 @@ func main() {
       if name != nil {
         n = *name
       }
-      return migrator.DownTo(conn, *dir, n)
+      return migrate.DownTo(conn, *dir, n)
     })
   }
 
   { // get info on the current migration
-    info := migrate.Command("info", "get the current migration number")
+    info := cli.Command("info", "get the current migration number")
     db := info.Flag("db", "database url (e.g. postgres://localhost:5432)").Required().String()
     info.Run(func() error {
       conn, err := connect(*db)
