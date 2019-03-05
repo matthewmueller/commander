@@ -14,7 +14,7 @@ func New(name, help string) *Command {
 	return &Command{root: root}
 }
 
-// Root of the CLI
+// Command struct
 type Command struct {
 	root *kingpin.Application
 }
