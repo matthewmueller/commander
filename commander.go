@@ -4,22 +4,6 @@ import (
 	kingpin "github.com/tj/kingpin"
 )
 
-// // Commander of commander
-// type Commander interface {
-// 	Command(name, help string) Commander
-// 	Use(fn func(child Commander) error)
-// 	Flag(name, help string) *kingpin.FlagClause
-// 	Arg(name, help string) *kingpin.ArgClause
-// 	Run(fn func() error)
-// 	Parse(args []string) error
-// 	Default() Commander
-// }
-
-// Root of the CLI
-type Root struct {
-	root *kingpin.Application
-}
-
 // New commander
 func New(name, help string) *Root {
 	root := kingpin.New(name, help)
@@ -28,6 +12,11 @@ func New(name, help string) *Root {
 	root.HelpFlag.Short('h')
 
 	return &Root{root: root}
+}
+
+// Root of the CLI
+type Root struct {
+	root *kingpin.Application
 }
 
 // Version sets the version
@@ -54,11 +43,6 @@ func (c *Root) Arg(name, help string) *kingpin.ArgClause {
 	return c.root.Arg(name, help)
 }
 
-// Default doesn't do anything on the root
-func (c *Root) Default() *Root {
-	return c
-}
-
 // Use fn
 func (c *Root) Use(fn func(c *Root) error) {
 	fn(c)
@@ -75,6 +59,13 @@ func (c *Root) Run(fn func() error) {
 func (c *Root) Parse(args []string) error {
 	_, err := c.root.Parse(args)
 	return err
+}
+
+// MustParse the args
+func (c *Root) MustParse(args []string) {
+	if err := c.Parse(args); err != nil {
+		c.Fatal(err)
+	}
 }
 
 // Fatal error
