@@ -1,5 +1,7 @@
 # Commander
 
+[![GoDoc](https://godoc.org/matthewmueller/commander?status.svg)](https://godoc.org/matthewmueller/commander)
+
 Commander makes it easier to build command-line tools in Go.
 
 Commander is tiny library on top of the excellent [kingpin library](https://github.com/alecthomas/kingpin).
