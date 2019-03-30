@@ -48,6 +48,11 @@ func (c *Command) Use(fn func(c *Command) error) {
 	fn(c)
 }
 
+// Example adds an example
+func (c *Command) Example(usage, help string) {
+	c.root.Example(usage, help)
+}
+
 // Run doesn't do anything on the root
 func (c *Command) Run(fn func() error) {
 	c.root.Action(func(_ *kingpin.ParseContext) error {
@@ -118,6 +123,11 @@ func (c *Subcommand) Alias(name string) *Subcommand {
 // Use fn
 func (c *Subcommand) Use(fn func(c *Subcommand) error) {
 	fn(c)
+}
+
+// Example adds an example
+func (c *Subcommand) Example(usage, help string) {
+	c.cmd.Example(usage, help)
 }
 
 // Run executes if this command is run

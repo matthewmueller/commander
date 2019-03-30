@@ -103,6 +103,67 @@ var tests = []struct {
 			}
 		`,
 	},
+	{
+		name:  "help with example",
+		input: "-h",
+		stderr: `
+			Usage:
+
+				say [<flags>]
+
+			Flags:
+
+				-h, --help  Output usage information.
+
+			Examples:
+
+				say something
+				$ say <something>
+
+				say something else
+				$ say <something> [else]
+		`,
+		main: `
+			func main() {
+				cmd := commander.New("say", "same command")
+				cmd.Example("say <something>", "say something")
+				cmd.Example("say <something> [else]", "say something else")
+				cmd.MustParse(os.Args[1:])
+			}
+		`,
+	},
+	{
+		name:  "subcommand help with example",
+		input: "en -h",
+		stderr: `
+			say in english
+
+			Usage:
+
+				say en
+
+			Flags:
+
+				-h, --help	Output usage information.
+
+			Examples:
+
+				say something
+				$ say en <something>
+
+				say something else
+				$ say en <something> [else]
+		`,
+		main: `
+			func main() {
+				cmd := commander.New("say", "same command")
+				en := cmd.Command("en", "say in english")
+				en.Example("say en <something>", "say something")
+				en.Example("say en <something> [else]", "say something else")
+				cmd.MustParse(os.Args[1:])
+			}
+		`,
+	},
 }
 
 func Test(t *testing.T) {
