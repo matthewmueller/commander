@@ -53,6 +53,13 @@ func (c *Command) Example(usage, help string) {
 	c.root.Example(usage, help)
 }
 
+// Before runs a command before run
+func (c *Command) Before(fn func() error) {
+	c.root.PreAction(func(_ *kingpin.ParseContext) error {
+		return fn()
+	})
+}
+
 // Run doesn't do anything on the root
 func (c *Command) Run(fn func() error) {
 	c.root.Action(func(_ *kingpin.ParseContext) error {
@@ -128,6 +135,13 @@ func (c *Subcommand) Use(fn func(c *Subcommand) error) {
 // Example adds an example
 func (c *Subcommand) Example(usage, help string) {
 	c.cmd.Example(usage, help)
+}
+
+// Before runs a command before run
+func (c *Subcommand) Before(fn func() error) {
+	c.cmd.PreAction(func(_ *kingpin.ParseContext) error {
+		return fn()
+	})
 }
 
 // Run executes if this command is run
