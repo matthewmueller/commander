@@ -1,12 +1,14 @@
 package commander
 
 import (
+	"io"
+
 	kingpin "github.com/tj/kingpin"
 )
 
 // New commander
 func New(name, help string) *Command {
-	root := kingpin.New(name, help)
+	root := kingpin.New(name, help).Terminate(nil)
 
 	// support -h
 	root.HelpFlag.Short('h')
@@ -33,6 +35,12 @@ func (c *Command) Command(name, help string) *Subcommand {
 	}
 }
 
+// Writer adjusts where the command is written out. The default is os.Stderr.
+func (c *Command) Writer(w io.Writer) *Command {
+	c.root.UsageWriter(w)
+	return c
+}
+
 // Flag adds a command flag
 func (c *Command) Flag(name, help string) *kingpin.FlagClause {
 	return c.root.Flag(name, help)
@@ -41,11 +49,6 @@ func (c *Command) Flag(name, help string) *kingpin.FlagClause {
 // Arg adds a command argument
 func (c *Command) Arg(name, help string) *kingpin.ArgClause {
 	return c.root.Arg(name, help)
-}
-
-// Use fn
-func (c *Command) Use(fn func(c *Command) error) {
-	fn(c)
 }
 
 // Example adds an example
